@@ -1,0 +1,46 @@
+// Script to cancel the USERCULTURE() function
+
+foreach (var measure in Model.AllMeasures)
+{
+    // Checking if a given substring exists in a measure expression
+    if (measure.Expression.Contains("SWITCH(LEFT(USERCULTURE(), 2),"))
+    {
+        // Replacing a substring with a new one
+        measure.Expression = measure.Expression.Replace("SWITCH(LEFT(USERCULTURE(), 2),", "SWITCH([Current Language],");
+    }
+}
+
+
+// Overriding language metadata for measures
+
+// Specify source and target languages
+string sourceLanguage = "ru-RU";
+string targetLanguage = "en-US";
+
+foreach (var measure in Model.AllMeasures)
+{
+    // Checking if there is metadata text for the source language
+    if (measure.TranslatedNames.Keys.Contains(sourceLanguage))
+    {
+        // Copy the metadata text from the source language to the target
+        measure.TranslatedNames[targetLanguage] = measure.TranslatedNames[sourceLanguage];
+    }
+}
+
+
+
+// Overriding language metadata for columns
+
+// Specify source and target languages
+string sourceLanguage = "ru-RU";
+string targetLanguage = "en-US";
+
+foreach (var column in Model.AllColumns)
+{
+    // Checking if there is metadata text for the source language
+    if (column.TranslatedNames.Keys.Contains(sourceLanguage))
+    {
+        // Copy the metadata text from the source language to the target
+        column.TranslatedNames[targetLanguage] = column.TranslatedNames[sourceLanguage];
+    }
+}
